@@ -1,25 +1,25 @@
 import 'dart:io';
 
-class UserInfo {
-  UserInfo._privateConstructor();
+class UserDetails {
+  UserDetails._privateConstructor();
 
-  static final UserInfo _instance = UserInfo._privateConstructor();
+  static final UserDetails _instance = UserDetails._privateConstructor();
 
-  factory UserInfo() {
+  factory UserDetails() {
     return _instance;
   }
 
-  String firstName, lastName, serverImageUri, desc, email;
-  File localImageUri;
+  String firstName, lastName, serverImageUri, desc, email, uid;
+  File localImageFile;
 
   Map<String, dynamic> toJson() {
     return {
       'firstName': this.firstName,
       'lastName': this.lastName,
-      'localImageUri': this.localImageUri,
       'serverImageUri': this.serverImageUri,
       'desc': this.desc,
-      'email': this.email
+      'email': this.email,
+      'uid': this.uid
     };
   }
 }

@@ -10,6 +10,7 @@ class Strings {
   static final String PASS_CONFIRM_HINT = "Confirm Password";
 
   static final String NEXT_HINT = "Next";
+  static final String SUBMIT_HINT = "Submit";
 
   //Messages
   static final String FIRST_NAME_REQ = "Kindly enter your first name.";
