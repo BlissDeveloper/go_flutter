@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "367570253277",
+    "firebase_url": "https://go-app-922dd.firebaseio.com",
+    "project_id": "go-app-922dd",
+    "storage_bucket": "go-app-922dd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:367570253277:android:44009861dd4170d1187234",
+        "android_client_info": {
+          "package_name": "com.example.go_flutter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "367570253277-j1g0h1msiq358gh8dleh82ciddp7obnc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBsmvnFmjOqu1gykb0cP8h90h0Uy9Vu7oc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "367570253277-j1g0h1msiq358gh8dleh82ciddp7obnc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
