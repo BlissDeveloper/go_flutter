@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:go_flutter/model/routes.dart';
 import 'package:go_flutter/res/constants.dart';
+import 'package:go_flutter/res/my_colors.dart';
 import 'package:go_flutter/res/strings.dart';
 import 'package:go_flutter/singleton/user_info.dart';
 import 'package:image_picker/image_picker.dart';
@@ -56,10 +57,15 @@ class _SignUpState extends State<SignUp> {
   Widget determineAvatarState() {
     if (legitImageFile == null) {
       return CircleAvatar(
+        backgroundColor: MyColors.myRed,
         radius: 72.0,
+        backgroundImage: AssetImage(
+          'assets/placeholder.png'
+        ),
       );
     } else {
       return CircleAvatar(
+        backgroundColor: Colors.white,
         radius: 72.0,
         child: Image.file(
           legitImageFile,
@@ -205,6 +211,15 @@ class _SignUpState extends State<SignUp> {
                                         } else {
                                           print("Bad");
                                         }
+                                      },
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: double.infinity,
+                                    child: RaisedButton(
+                                      child: Text(Strings.ALREADY_ACCOUNT),
+                                      onPressed: () {
+
                                       },
                                     ),
                                   )

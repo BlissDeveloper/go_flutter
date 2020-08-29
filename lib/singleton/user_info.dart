@@ -22,4 +22,16 @@ class UserDetails {
       'uid': this.uid
     };
   }
+
+  static UserDetails toObject(Map<String, dynamic> map) {
+    UserDetails userDetails = new UserDetails();
+    userDetails.firstName = map['firstName'];
+    userDetails.lastName = map['lastName'];
+    userDetails.serverImageUri = map['serverImageUri'];
+    userDetails.desc = map['desc'];
+    userDetails.email = map['email'];
+    userDetails.uid = map['uid'];
+
+    return userDetails;
+  }
 }

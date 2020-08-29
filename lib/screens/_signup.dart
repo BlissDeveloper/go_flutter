@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:go_flutter/model/routes.dart';
 import 'package:go_flutter/res/constants.dart';
 import 'package:go_flutter/res/strings.dart';
 import 'package:go_flutter/services/firebaseutils.dart';
@@ -24,6 +25,39 @@ class _SignUp2State extends State<SignUp2> {
 
   FirebaseUtils firebaseUtils;
 
+  initProcess() {
+    userInfoSingleton.email = email;
+    firebaseUtils.registerToAuth(email, password).then((success) {
+      if (success) {
+        firebaseUtils.logUser(email, password).then((uid) {
+          firebaseUtils
+              .uploadImage(userInfoSingleton.localImageFile)
+              .then((imageUrl) {
+            if (uid != null) {
+              userInfoSingleton.serverImageUri = imageUrl;
+              userInfoSingleton.uid = uid;
+                firebaseUtils
+                  .uploadUserInfo(userInfoSingleton)
+                  .then((isSuccessful) {
+                if (isSuccessful) {
+                  print("Upload success");
+                  goToDashboard(context);
+                } else {
+
+                }
+              });
+            }
+          });
+        });
+      }
+    });
+  }
+
+  goToDashboard(BuildContext context) {
+    Navigator.pushReplacementNamed(context, Routes.DASH_BOARD_ROUTE);
+    Navigator.pop(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     firebaseUtils = new FirebaseUtils();
@@ -44,7 +78,7 @@ class _SignUp2State extends State<SignUp2> {
                       border: OutlineInputBorder(),
                       labelText: Strings.EMAIL_HINT),
                   validator: (String value) {
-                    if (!value.isEmpty) {
+                    if (value != null) {
                       if (!Constants.emailRegExp.hasMatch(value)) {
                         return Strings.EMAIL_INVALID;
                       } else {
@@ -138,32 +172,7 @@ class _SignUp2State extends State<SignUp2> {
                     onPressed: () {
                       if (_formStateKey.currentState.validate()) {
                         _formStateKey.currentState.save();
-                        userInfoSingleton.email = email;
-
-                        firebaseUtils
-                            .registerToAuth(email, password)
-                            .then((success) {
-                          if (success) {
-                            firebaseUtils
-                                .logUser(email, password)
-                                .then((value) {
-                              firebaseUtils
-                                  .uploadImage(userInfoSingleton.localImageFile)
-                                  .then((uid) {
-                                if (uid != null) {
-                                  userInfoSingleton.serverImageUri = value;
-                                  firebaseUtils
-                                      .uploadUserInfo(userInfoSingleton)
-                                      .then((isSuccessful) {
-                                    if (isSuccessful) {
-                                      print("Upload success");
-                                    } else {}
-                                  });
-                                }
-                              });
-                            });
-                          }
-                        });
+                        initProcess();
                       } else {
                         print("Bad");
                       }

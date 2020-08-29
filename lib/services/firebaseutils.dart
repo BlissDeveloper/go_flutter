@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:go_flutter/singleton/user_info.dart';
@@ -51,5 +52,30 @@ class FirebaseUtils {
     } else {
       return false;
     }
+  }
+
+  User getCurrentUser() {
+    return firebaseAuth.currentUser;
+  }
+
+  Future<UserDetails> getUserInfo() async {
+    User user = getCurrentUser();
+    String uid = user.uid;
+    UserDetails userDetails = UserDetails();
+    QuerySnapshot querySnapshot =
+        await usersRef.where('uid', isEqualTo: uid).get();
+    if (querySnapshot.docs.length > 0) {
+      for (int i = 0; i < querySnapshot.docs.length; i++) {
+        DocumentSnapshot documentSnapshot = querySnapshot.docs[i];
+        userDetails = UserDetails.toObject(documentSnapshot.data());
+      }
+      return userDetails;
+    } else {
+      return null;
+    }
+  }
+
+  Future signOut() {
+    return firebaseAuth.signOut();
   }
 }
