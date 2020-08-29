@@ -32,13 +32,13 @@ class MyApp extends StatelessWidget {
               theme: ThemeData(
                   primaryColor: MyColors.myRed,
                   accentColor: Colors.redAccent,
-                  cursorColor: MyColors.myRed,
+                  cursorColor: Colors.white,
                   buttonTheme: ButtonThemeData(
-                      buttonColor: MyColors.myRed,
-                      textTheme: ButtonTextTheme.primary)),
+                    buttonColor: MyColors.myRed,
+                  )),
               routes: {
                 Routes.SIGN_UP_ROUTE: (context) => SignUp(),
-                Routes.SIGN_UP_ROUTE: (context) => SignIn(),
+                Routes.SIGN_IN_ROUTE: (context) => SignIn(),
                 Routes.SIGN_UP_ROUTE_2: (context) => SignUp2(),
                 Routes.DASH_BOARD_ROUTE: (context) => Dashboard(),
               },
@@ -80,7 +80,7 @@ class _WrapperState extends State<Wrapper> {
     } else {
       //Wala pa
       print("No on is signed in");
-      return SignUp();
+      return SignIn();
     }
   }
 }

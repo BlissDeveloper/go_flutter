@@ -78,4 +78,14 @@ class FirebaseUtils {
   Future signOut() {
     return firebaseAuth.signOut();
   }
+
+  Future<bool> signIn({String email, String pass}) async {
+    UserCredential userCredential = await firebaseAuth
+        .signInWithEmailAndPassword(email: email, password: pass);
+    if (userCredential != null) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }

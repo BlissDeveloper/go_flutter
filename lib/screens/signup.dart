@@ -6,6 +6,7 @@ import 'package:go_flutter/model/routes.dart';
 import 'package:go_flutter/res/constants.dart';
 import 'package:go_flutter/res/my_colors.dart';
 import 'package:go_flutter/res/strings.dart';
+import 'package:go_flutter/res/styles.dart';
 import 'package:go_flutter/singleton/user_info.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -57,11 +58,9 @@ class _SignUpState extends State<SignUp> {
   Widget determineAvatarState() {
     if (legitImageFile == null) {
       return CircleAvatar(
-        backgroundColor: MyColors.myRed,
+        backgroundColor: Colors.white,
         radius: 72.0,
-        backgroundImage: AssetImage(
-          'assets/placeholder.png'
-        ),
+        backgroundImage: AssetImage('assets/placeholder.png'),
       );
     } else {
       return CircleAvatar(
@@ -80,10 +79,16 @@ class _SignUpState extends State<SignUp> {
     Navigator.pushNamed(context, Routes.SIGN_UP_ROUTE_2);
   }
 
+  goToSignIn(context) {
+    Navigator.pushReplacementNamed(context, Routes.SIGN_IN_ROUTE);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: MyColors.myBlue,
         appBar: AppBar(
+          elevation: 0,
           title: Text(Strings.SIGN_UP),
         ),
         body: FutureBuilder(
@@ -118,7 +123,10 @@ class _SignUpState extends State<SignUp> {
                                     children: <Widget>[
                                       determineAvatarState(),
                                       IconButton(
-                                        icon: Icon(Icons.add_a_photo),
+                                        icon: Icon(
+                                          Icons.add_a_photo,
+                                          color: Colors.white,
+                                        ),
                                         onPressed: () {
                                           openGallery();
                                         },
@@ -129,6 +137,10 @@ class _SignUpState extends State<SignUp> {
                                     height: 16.0,
                                   ),
                                   TextFormField(
+                                    style: TextStyle(
+                                        color: Colors.white
+                                    ),
+                                    cursorColor: Colors.white,
                                     validator: (String value) {
                                       if (value.isEmpty) {
                                         return Strings.FIRST_NAME_REQ;
@@ -144,17 +156,19 @@ class _SignUpState extends State<SignUp> {
                                     onSaved: (String value) {
                                       firstName = value;
                                     },
-                                    decoration: InputDecoration(
-                                        border: OutlineInputBorder(),
-                                        labelText: Strings.FIRST_NAME_HINT),
+                                    decoration: MyStyles.styleTextField(
+                                        hint: Strings.FIRST_NAME_HINT),
                                   ),
                                   SizedBox(
                                     height: 16.0,
                                   ),
                                   TextFormField(
-                                    decoration: InputDecoration(
-                                        border: OutlineInputBorder(),
-                                        labelText: Strings.LAST_NAME_HINT),
+                                    style: TextStyle(
+                                        color: Colors.white
+                                    ),
+                                    cursorColor: Colors.white,
+                                    decoration: MyStyles.styleTextField(
+                                        hint: Strings.LAST_NAME_HINT),
                                     validator: (String value) {
                                       if (value.isEmpty) {
                                         return Strings.LAST_NAME_REQ;
@@ -175,11 +189,14 @@ class _SignUpState extends State<SignUp> {
                                     height: 16.0,
                                   ),
                                   TextFormField(
+                                    style: TextStyle(
+                                        color: Colors.white
+                                    ),
+                                    cursorColor: Colors.white,
+                                    decoration: MyStyles.styleTextField(
+                                        hint: Strings.DESC_HINT),
                                     maxLines: null,
                                     keyboardType: TextInputType.multiline,
-                                    decoration: InputDecoration(
-                                        border: OutlineInputBorder(),
-                                        labelText: Strings.DESC_HINT),
                                     validator: (String value) {
                                       if (value.isEmpty) {
                                         return Strings.DESC_REQ;
@@ -194,32 +211,47 @@ class _SignUpState extends State<SignUp> {
                                   SizedBox(
                                     height: 16.0,
                                   ),
-                                  SizedBox(
-                                    width: double.infinity,
-                                    child: RaisedButton(
-                                      child: Text(Strings.NEXT_HINT),
-                                      onPressed: () {
-                                        if (_formKey.currentState.validate()) {
-                                          _formKey.currentState.save();
-                                          userInfoSingleton.firstName =
-                                              firstName;
-                                          userInfoSingleton.lastName = lastName;
-                                          userInfoSingleton.desc = desc;
-                                          userInfoSingleton.localImageFile =
-                                              legitImageFile;
-                                          goToNext(context);
-                                        } else {
-                                          print("Bad");
-                                        }
-                                      },
+                                  Padding(
+                                    padding: const EdgeInsets.fromLTRB(
+                                        48.0, 0.0, 48.0, 0.0),
+                                    child: SizedBox(
+                                      width: double.infinity,
+                                      child: RaisedButton(
+                                        shape: MyStyles.styleButton(),
+                                        child: Text(
+                                          Strings.NEXT_HINT,
+                                          style: MyStyles.styleButtonText(),
+                                        ),
+                                        onPressed: () {
+                                          if (_formKey.currentState
+                                              .validate()) {
+                                            _formKey.currentState.save();
+                                            userInfoSingleton.firstName =
+                                                firstName;
+                                            userInfoSingleton.lastName =
+                                                lastName;
+                                            userInfoSingleton.desc = desc;
+                                            userInfoSingleton.localImageFile =
+                                                legitImageFile;
+                                            goToNext(context);
+                                          } else {
+                                            print("Bad");
+                                          }
+                                        },
+                                      ),
                                     ),
                                   ),
                                   SizedBox(
                                     width: double.infinity,
-                                    child: RaisedButton(
-                                      child: Text(Strings.ALREADY_ACCOUNT),
+                                    child: FlatButton(
+                                      child: Text(
+                                        Strings.ALREADY_ACCOUNT,
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold),
+                                      ),
                                       onPressed: () {
-
+                                        goToSignIn(context);
                                       },
                                     ),
                                   )
