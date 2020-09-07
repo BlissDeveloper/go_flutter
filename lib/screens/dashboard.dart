@@ -1,3 +1,5 @@
+
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -28,7 +30,9 @@ class _DashboardState extends State<Dashboard> {
             content: Text(Strings.SIGN_OUT_MESSAGE),
             actions: <Widget>[
               FlatButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pop(context);
+                },
                 child: Text(
                   Strings.NO,
                   style: TextStyle(color: MyColors.myRed),
@@ -39,7 +43,7 @@ class _DashboardState extends State<Dashboard> {
                   firebaseUtils.signOut().then((value) {
                     Navigator.pop(context);
                     Navigator.pushReplacementNamed(
-                        context, Routes.SIGN_UP_ROUTE);
+                        context, Routes.SIGN_IN_ROUTE);
                   });
                 },
                 child: Text(
@@ -59,6 +63,9 @@ class _DashboardState extends State<Dashboard> {
     return Scaffold(
       backgroundColor: MyColors.myBlue,
       appBar: AppBar(
+        backgroundColor: MyColors.myGrey,
+        centerTitle: true,
+        automaticallyImplyLeading: false,
         actions: <Widget>[
           IconButton(
             onPressed: () {
@@ -117,6 +124,22 @@ class UserCard extends StatefulWidget {
   UserCard(this.userDetails);
 }
 
+Widget determineCircleAvatar(UserDetails userDetails) {
+  if (userDetails.serverImageUri != null) {
+    return CircleAvatar(
+      backgroundImage: NetworkImage(userDetails.serverImageUri),
+      backgroundColor: Colors.white,
+      radius: 88.0,
+    );
+  } else {
+    return CircleAvatar(
+      backgroundImage: AssetImage('assets/placeholder.png'),
+      backgroundColor: Colors.white,
+      radius: 88.0,
+    );
+  }
+}
+
 class _UserCardState extends State<UserCard> {
   @override
   Widget build(BuildContext context) {
@@ -124,24 +147,14 @@ class _UserCardState extends State<UserCard> {
     return Column(
       children: <Widget>[
         Container(
-            color: Colors.white,
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
-              child: Image.asset('assets/go.png'),
-            )),
-        Container(
           width: double.infinity,
-          color: MyColors.myRed,
+          color: MyColors.myGrey,
           child: Column(
             children: <Widget>[
               SizedBox(
                 height: 16.0,
               ),
-              CircleAvatar(
-                backgroundImage: NetworkImage(userDetails.serverImageUri),
-                backgroundColor: Colors.white,
-                radius: 88.0,
-              ),
+              determineCircleAvatar(widget.userDetails),
               SizedBox(
                 height: 16.0,
               ),
@@ -179,11 +192,15 @@ class _UserCardState extends State<UserCard> {
           child: Container(
             width: double.infinity,
             child: Card(
+              color: MyColors.myRed,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15.0),
+              ),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   userDetails.desc,
-                  style: TextStyle(fontSize: 20.0),
+                  style: TextStyle(fontSize: 20.0, color: Colors.white),
                 ),
               ),
             ),
